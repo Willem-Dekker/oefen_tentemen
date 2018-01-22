@@ -1,0 +1,17 @@
+[
+  {
+    "username": "ruud",
+    "password": "duur",
+    "department": "IT Lecturers"
+  },
+  {
+    "username": "jeroen",
+    "password": "jerslim",
+    "department": "IT Lecturers"
+  },
+  {
+    "username": "hesther",
+    "password": "hesthim",
+    "department": "Management"
+  }
+]
