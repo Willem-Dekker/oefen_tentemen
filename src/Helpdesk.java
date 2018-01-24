@@ -1,3 +1,4 @@
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.json.JSONArray;
 import org.json.JSONString;
 
@@ -51,27 +52,36 @@ public class Helpdesk {
     public void printAllTickets(){
         System.out.println("Tickets");
         for (Ticket t:tickets) {
-            if (t instanceof Hardware_Ticket){
+            /*if (t instanceof Hardware_Ticket){
                 Hardware_Ticket h = (Hardware_Ticket) t;
                 System.out.println(h.toString());
             }else{
                 Software_Ticket s = (Software_Ticket) t;
                 System.out.println(s.toString());
-            }
+            }*/
+            System.out.println(t.toString());
 
         }
     }
 
-    public void addTicket(String date, String username, String problem, int computer_ID){
+    public void addTicket(String date, String username, String problem, int computer_ID) throws TicketExeption{
         Employee e = getEmployeeByUsername(username);
-        Hardware_Ticket h = new Hardware_Ticket(date,e,problem,computer_ID);
-        tickets.add(h);
+        if(e == null){
+            throw new TicketExeption("user not found");
+        }else {
+            Hardware_Ticket h = new Hardware_Ticket(date, e, problem, computer_ID);
+            tickets.add(h);
+        }
     }
 
-    public void addTicket(String date, String username, String problem, String  aplication){
+    public void addTicket(String date, String username, String problem, String  aplication) throws TicketExeption{
         Employee e = getEmployeeByUsername(username);
-        Software_Ticket s = new Software_Ticket(date,e,problem,aplication);
-        tickets.add(s);
+        if(e == null){
+            throw new TicketExeption("user not found");
+        }else {
+            Software_Ticket s = new Software_Ticket(date, e, problem, aplication);
+            tickets.add(s);
+        }
     }
 
     private Ticket getTicketByID(int id){
@@ -93,10 +103,23 @@ public class Helpdesk {
 
     }
 
-    public void solveTicket(int id, String username, String solution){
+    public void solveTicket(int id, String username, String solution) throws TicketExeption,EmployeeExeption{
         Ticket ticket = getTicketByID(id);
-        Support_Employee support_employee= (Support_Employee) getEmployeeByUsername(username);
-        ticket.solve_ticket(support_employee,solution);
+        if (ticket == null) {
+            throw new TicketExeption("ticket not found");
+        }else{
+
+            Employee employee=  getEmployeeByUsername(username);
+            if(employee == null){
+                throw new EmployeeExeption("Employee not found");
+            }else {
+                if (employee instanceof Support_Employee) {
+                    ticket.solve_ticket((Support_Employee) employee, solution);
+                }else {
+                    throw new EmployeeExeption("not a helpdesk man");
+                }
+            }
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-import java.util.Date;
+
 
 public class Application {
 
@@ -28,15 +28,31 @@ public class Application {
         //A software ticket with date: 15-01-2018, creator: ruud, "Excel can't calculate the number of days in a year", software: "Office 365"
         //A hardware ticket with date: 16-01-2018, creator: jeroen, "My mouse doesn't work!", hardwareCode: 5
         //A software ticket with date: 17-01-2018, creator: ruud, "MacOS won't boot on my system", software: "MacOS X"
-        helpdesk.addTicket("15-01-2018","ruud","Excel can't calculate the number of days in a year","Office 365");
-        helpdesk.addTicket("16-01-2018","jeroen","My mouse doesn't work!",5);
-        helpdesk.addTicket("17-01-2018","ruud","MacOS won't boot on my system","MacOS X");
+        try {
+            helpdesk.addTicket("15-01-2018","ruud","Excel can't calculate the number of days in a year","Office 365");
+            helpdesk.addTicket("16-01-2018","jeroen","My mouse doesn't work!",5);
+            helpdesk.addTicket("17-01-2018","ruud","MacOS won't boot on my system","MacOS X");
+        }catch (TicketExeption ticketExeption){
+            ticketExeption.printStackTrace();
+        }
+
+
+
+
 
         //TODO: Solve ticket 2 and 3 (The last two)
         //Ticket 2, solver: gerralt, message: "Try putting it into the USB port instead of the HDMI port."
         //Ticket 3, solver: gerralt, message: "Please replace your Dell laptop with a real system"
-        helpdesk.solveTicket(2,"gerralt","Try putting it into the USB port instead of the HDMI port.");
-        helpdesk.solveTicket(3,"gerralt","Please replace your Dell laptop with a real system");
+        try {
+
+
+            helpdesk.solveTicket(2, "gerralt", "Try putting it into the USB port instead of the HDMI port.");
+            helpdesk.solveTicket(3, "gerralt", "Please replace your Dell laptop with a real system");
+        }catch (TicketExeption ticketExeption){
+            System.out.println(ticketExeption.getMessage());
+        }catch (EmployeeExeption employeeExeption){
+            System.out.println(employeeExeption.getMessage());
+        }
         //TODO: Print the tickets
         helpdesk.printAllTickets();
     }
